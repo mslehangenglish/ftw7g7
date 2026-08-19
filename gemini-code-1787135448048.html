@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice Questions Section XIV & XV - Ms Lê Hằng English</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================
+       1. GIAO DIỆN NỀN LOANG & HỌA TIẾT SVG GAMIFICATION
+       ========================================== */
+    :root {
+      --primary-purple: #8854C0;
+      --accent-yellow: #FDCB6E;
+      --accent-teal: #00C9A7;
+      --correct-green: #00D26A;
+      --wrong-red: #FF4757;
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --text-dark: #2D3436;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Quicksand', 'Nunito', sans-serif;
+      min-height: 100vh;
+      color: var(--text-dark);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px 10px;
+      position: relative;
+      overflow-x: hidden;
+      
+      background: linear-gradient(-45deg, #8854C0, #FDCB6E, #00C9A7, #FF7675, #6C5CE7);
+      background-size: 400% 400%;
+      animation: gradientSmooth 15s ease infinite;
+    }
+
+    @keyframes gradientSmooth {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.28;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 100 100"><path fill="%23FFF" d="M25,10 L29,20 L40,20 L31,27 L34,38 L25,31 L16,38 L19,27 L10,20 L21,20 Z"/><circle cx="75" cy="25" r="7" fill="%23FFF"/><path fill="%23FFF" d="M70,75 C70,70 80,70 80,75 C85,75 85,85 80,85 C80,90 70,90 70,85 C65,85 65,75 70,75 Z"/><path fill="%23FFF" d="M20,70 Q25,60 30,70 T40,70 T30,80 T20,70 Z"/><path fill="%23FFF" d="M80,15 C82,10 88,10 90,15 C95,17 95,23 90,25 C88,30 82,30 80,25 C75,23 75,17 80,15 Z"/></svg>');
+      background-size: 140px 140px;
+      animation: floatPattern 22s linear infinite;
+    }
+
+    @keyframes floatPattern {
+      from { background-position: 0 0; }
+      to { background-position: 500px 1000px; }
+    }
+
+    /* ==========================================
+       2. BỐ CỤC CHÍNH (CONTAINER)
+       ========================================== */
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 820px;
+      background: var(--card-bg);
+      border-radius: 28px;
+      padding: 25px 30px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.22), 0 0 0 8px rgba(255,255,255,0.45);
+      backdrop-filter: blur(12px);
+    }
+
+    .teacher-header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .teacher-header h5 {
+      font-size: 0.95rem;
+      color: var(--primary-purple);
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      background: #E8D8F8;
+      display: inline-block;
+      padding: 5px 18px;
+      border-radius: 20px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.06);
+    }
+
+    .alert-banner {
+      background: #FFF9DB;
+      border: 3px dashed #FCC419;
+      border-radius: 18px;
+      padding: 14px 20px;
+      margin-bottom: 25px;
+      text-align: center;
+      color: #D9480F;
+      font-weight: 700;
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .alert-banner .title {
+      font-size: 1.05rem;
+      font-weight: 900;
+      display: block;
+      margin-bottom: 4px;
+      color: #E65100;
+    }
+
+    .alert-banner .highlight {
+      color: #D32F2F;
+      text-decoration: underline;
+      font-style: italic;
+    }
+
+    .progress-box {
+      margin-bottom: 25px;
+      background: #E9ECEF;
+      border-radius: 14px;
+      height: 20px;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid #CED4DA;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00C9A7, #00D26A);
+      transition: width 0.4s ease;
+    }
+
+    /* ==========================================
+       3. THẺ CÂU HỎI & NÚT LỰA CHỌN 3D
+       ========================================== */
+    .section-heading {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--primary-purple);
+      margin: 25px 0 15px 0;
+      padding: 12px 18px;
+      background: #F1F3F5;
+      border-radius: 16px;
+      border-left: 6px solid var(--primary-purple);
+      line-height: 1.5;
+    }
+
+    .question-card {
+      background: #FFFFFF;
+      border-radius: 22px;
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+      border: 2px solid #E9ECEF;
+      transition: transform 0.2s ease;
+    }
+
+    .question-title {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: #2D3436;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      background: #F8F9FA;
+      border: 2px solid #E9ECEF;
+      border-bottom: 5px solid #CED4DA;
+      border-radius: 18px;
+      padding: 14px 20px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #495057;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: inherit;
+    }
+
+    .option-btn:hover:not(.disabled) {
+      transform: scale(1.01) translateY(-2px);
+      border-color: #B2BEC3;
+      background: #FFFFFF;
+    }
+
+    .option-btn:active:not(.disabled) {
+      transform: translateY(2px);
+      border-bottom-width: 2px;
+    }
+
+    .option-btn.correct {
+      background-color: #D4EDDA !important;
+      border-color: var(--correct-green) !important;
+      border-bottom-color: #27AE60 !important;
+      color: #155724 !important;
+    }
+
+    .option-btn.wrong {
+      background-color: #F8D7DA !important;
+      border-color: var(--wrong-red) !important;
+      border-bottom-color: #C0392B !important;
+      color: #721C24 !important;
+      animation: shake 0.4s ease;
+    }
+
+    .option-btn.disabled {
+      cursor: default;
+      opacity: 0.9;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    /* ==========================================
+       4. KHUNG GIẢI THÍCH CHI TIẾT 4 BƯỚC
+       ========================================== */
+    .explanation-box {
+      display: none;
+      margin-top: 18px;
+      background: #F8F9FA;
+      border: 2px dashed var(--primary-purple);
+      border-left: 6px solid var(--primary-purple);
+      border-radius: 14px;
+      padding: 16px 20px;
+      font-size: 0.93rem;
+      line-height: 1.65;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .explanation-box .exp-title {
+      font-weight: 800;
+      color: var(--primary-purple);
+      font-size: 1rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .explanation-box .step {
+      margin-bottom: 8px;
+    }
+
+    .explanation-box ul {
+      margin-left: 22px;
+      margin-bottom: 8px;
+    }
+
+    .explanation-box ul li {
+      margin-bottom: 3px;
+    }
+
+    .explanation-box .highlight-green {
+      color: #27AE60;
+      font-weight: 700;
+    }
+
+    /* ==========================================
+       5. NÚT NỘP BÀI VÀ POPUP KẾT QUẢ
+       ========================================== */
+    .submit-container {
+      text-align: center;
+      margin-top: 35px;
+      margin-bottom: 15px;
+    }
+
+    .submit-btn {
+      background: linear-gradient(180deg, #00C9A7 0%, #00B894 100%);
+      color: white;
+      border: none;
+      border-bottom: 6px solid #008F68;
+      border-radius: 22px;
+      padding: 16px 50px;
+      font-size: 1.25rem;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(0,201,167,0.35);
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(0,201,167,0.45);
+    }
+
+    .submit-btn:active {
+      transform: translateY(3px);
+      border-bottom-width: 2px;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 26px;
+      padding: 32px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+      animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-score {
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: var(--primary-purple);
+      margin: 15px 0;
+    }
+
+    .modal-feedback {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #2D3436;
+      margin-bottom: 25px;
+      background: #F8F9FA;
+      padding: 16px;
+      border-radius: 18px;
+      border: 2px dashed #B2BEC3;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      background: var(--primary-purple);
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    #confetti-canvas {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="container">
+    <div class="teacher-header">
+      <h5>Giáo viên tạo: Ms Lê Hằng English</h5>
+    </div>
+
+    <div class="alert-banner">
+      <span class="title">⚠️ LỜI NHẮC CỰC KỲ QUAN TRỌNG ⚠️</span>
+      Chỉ có đọc kỹ giải thích ngay sau mỗi câu, sau đó ghi lại từ vựng/cấu trúc mới vào vở để học thì mới thực sự giỏi lên.<br>
+      Làm cho xong mà không đọc giải thích hay đọc qua loa không ghi chép thì chỉ tốn thời gian vô ích!<br>
+      <span class="highlight">* Kéo tới đâu, làm tới đó! *</span>
+    </div>
+
+    <div class="progress-box">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <div id="quiz-container"></div>
+
+    <div class="submit-container">
+      <button class="submit-btn" onclick="submitQuiz()">NỘP BÀI KIỂM TRA 🚀</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="result-modal">
+    <div class="modal-content">
+      <h2 style="color: var(--primary-purple);">🎉 KẾT QUẢ BÀI THI 🎉</h2>
+      <div class="modal-score" id="modal-score-text">0 / 0</div>
+      <div class="modal-feedback" id="modal-feedback-text"></div>
+      <button class="close-btn" onclick="closeModal()">Xem lại đáp án chi tiết</button>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================
+       1. CƠ SỞ DỮ LIỆU ĐỀ BÀI (SECTION XIV & XV)
+       ========================================== */
+    const quizData = [
+      // ----- SECTION XIV (1-12) -----
+      {
+        id: "xiv_1",
+        section: "XIV. Reorder the words and phrases to make complete sentences.",
+        question: "1. a / art. / traditional / of / puppetry / form / is / Water",
+        options: [
+          { letter: "A", text: "Water puppetry is a traditional form of art." },
+          { letter: "B", text: "Water puppetry is a form traditional of art." },
+          { letter: "C", text: "A traditional form of art is water puppetry." },
+          { letter: "D", text: "Water puppetry is traditional form of art." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hoàn chỉnh: 'Múa rối nước là một hình thức nghệ thuật truyền thống.'",
+          step2: [
+            "A. Water puppetry is a traditional form of art. (Sắp xếp trật tự từ chuẩn xác 100%).",
+            "B. ...form traditional... (Đặt tính từ 'traditional' đằng sau danh từ 'form' là sai).",
+            "C. ...is water puppetry. (Đưa cụm danh từ 'Water puppetry' xuống cuối câu làm mất tính tự nhiên).",
+            "D. ...traditional form... (Thiếu mạo từ 'a' trước cụm danh từ đếm được số ít)."
+          ],
+          step3: "Tại sao chọn A? Chủ ngữ: 'Water puppetry'. Động từ: 'is'. Cụm danh từ vị ngữ: 'a traditional form' (một hình thức truyền thống) + 'of art' (của nghệ thuật).",
+          step4: "Loại B sai vị trí tính từ; loại C sắp xếp chưa chuẩn; loại D thiếu mạo từ 'a'."
+        }
+      },
+      {
+        id: "xiv_2",
+        section: "XIV. Reorder the words and phrases to make complete sentences.",
+        question: "2. not / as / play. / is / A / long / film / as / a",
+        options: [
+          { letter: "A", text: "A film is not as long as a play." },
+          { letter: "B", text: "A play is not as long as a film." },
+          { letter: "C", text: "A film is long as not a play." },
+          { letter: "D", text: "A film not is as long as a play." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hoàn chỉnh: 'Một bộ phim thì không dài bằng một vở kịch.'",
+          step2: [
+            "A. A film is not as long as a play. (Sắp xếp chuẩn cú pháp so sánh không bằng).",
+            "B. A play is not as long... (Đổi ngược vị trí hai danh từ 'film' và 'play').",
+            "C. ...is long as not... (Mắc lỗi sai vị trí từ phủ định 'not').",
+            "D. ...not is... (Đặt 'not' lên trước to-be 'is' là sai)."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc so sánh không bằng: 'S1 (A film) + IS NOT + AS + Adj (long) + AS + S2 (a play)'.",
+          step4: "Loại B tráo đổi vị trí danh từ gốc; loại C, D sai vị trí từ phủ định 'not'."
+        }
+      },
+      {
+        id: "xiv_3",
+        section: "XIV. Reorder the words and phrases to make complete sentences.",
+        question: "3. Many / tourists / to / Viet Nam / water / the / to / show. / see / puppet / come",
+        options: [
+          { letter: "A", text: "Many tourists come to Viet Nam to see the water puppet show." },
+          { letter: "B", text: "Many tourists come to see the water puppet show to Viet Nam." },
+          { letter: "C", text: "Many tourists to Viet Nam come to see the water puppet show." },
+          { letter: "D", text: "Many tourists come Viet Nam to see the water puppet show." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hoàn chỉnh: 'Nhiều du khách đến Việt Nam để xem múa rối nước.'",
+          step2: [
+            "A. Many tourists come to Viet Nam to see the water puppet show. (Đúng trật tự từ chỉ nơi chốn và mục đích).",
+            "B. ...come to see... to Viet Nam. (Đảo cụm chỉ mục đích lên trước cụm nơi chốn là không chuẩn).",
+            "C. ...tourists to Viet Nam come... (Tách rời động từ 'come' khỏi chủ ngữ).",
+            "D. ...come Viet Nam... (Thiếu giới từ 'to' sau động từ 'come')."
+          ],
+          step3: "Tại sao chọn A? Chủ ngữ: 'Many tourists'. Động từ chỉ hướng đi: 'come to Viet Nam'. Cụm động từ chỉ mục đích: 'to see the water puppet show'.",
+          step4: "Loại B sai thứ tự cụm nơi chốn - mục đích; loại C sai cấu trúc; loại D thiếu giới từ 'to'."
+        }
+      },
+      {
+        id: "xiv_4",
+        section: "XIV. Reorder the words and phrases to make complete sentences.",
+        question: "4. about / How / going / the / to / cinema?",
+        options: [
+          { letter: "A", text: "How about going to the cinema?" },
+          { letter: "B", text: "How going about to the cinema?" },
+          { letter: "C", text: "How about to go to the cinema?" },
+          { letter: "D", text: "How about go to the cinema?" }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hỏi: 'Thế còn việc đi đến rạp chiếu phim thì sao?'",
+          step2: [
+            "A. How about going to the cinema? (Đúng cấu trúc rủ rê 'How about + V-ing').",
+            "B. ...going about... (Tráo ngược vị trí 'going' và 'about').",
+            "C. ...about to go... (Dùng 'to-V' sau giới từ 'about' là sai).",
+            "D. ...about go... (Dùng 'V-bare' sau giới từ 'about' là sai)."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc gợi ý/rủ rê nghi vấn: 'HOW ABOUT + V-ING + to + Place?'. Động từ 'going' đứng ngay sau giới từ 'about'.",
+          step4: "Loại B xáo trộn từ; loại C, D sai dạng động từ đi sau giới từ 'about'."
+        }
+      },
+      {
+        id: "xiv_5",
+        section: "XIV. Reorder the words and phrases to make complete sentences.",
+        question: "5. you / Can / pass / milk, / of / a glass / please? / me",
+        options: [
+          { letter: "A", text: "Can you pass me a glass of milk, please?" },
+          { letter: "B", text: "Can you pass a glass of milk me, please?" },
+          { letter: "C", text: "Can pass you me a glass of milk, please?" },
+          { letter: "D", text: "Can you pass me a milk glass, please?" }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hỏi: 'Bạn có thể chuyển giúp tôi một cốc sữa được không?'",
+          step2: [
+            "A. Can you pass me a glass of milk, please? (Đúng ngữ pháp cấu trúc 'pass someone something').",
+            "B. ...pass a glass of milk me... (Đặt tân ngữ chỉ người 'me' đứng sau tân ngữ vật mà thiếu giới từ 'to' là sai).",
+            "C. ...Can pass you... (Đặt động từ 'pass' lên trước chủ ngữ 'you' là sai).",
+            "D. ...a milk glass... (Xáo trộn sai cụm từ 'a glass of milk')."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc yêu cầu lịch sự: 'Can + S (you) + V (pass) + O1 (me) + O2 (a glass of milk), please?'.",
+          step4: "Loại B, C, D do xáo trộn sai vị trí tân ngữ và động từ."
+        }
+      },
+      {
+        id: "xiv_6",
+        section: "XIV. Reorder the words and phrases to make complete sentences.",
+        question: "6. of / fish / sauce / this / There's / in / lot / recipe.",
+        options: [
+          { letter: "A", text: "There's a lot of fish sauce in this recipe." },
+          { letter: "B", text: "There's a fish sauce lot of in this recipe." },
+          { letter: "C", text: "There's lot of a fish sauce in this recipe." },
+          { letter: "D", text: "In this recipe there's a fish sauce lot of." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hoàn chỉnh: 'Có rất nhiều nước mắm trong công thức nấu ăn này.'",
+          step2: [
+            "A. There's a lot of fish sauce in this recipe. (Sắp xếp lượng từ và cụm danh từ chuẩn xác 100%).",
+            "B. ...a fish sauce lot of... (Xáo trộn sai vị trí lượng từ 'a lot of').",
+            "C. ...lot of a fish... (Thiếu mạo từ 'a' đứng trước 'lot').",
+            "D. (Xáo trộn trật tự từ lủng củng sai ngữ pháp)."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc sự tồn tại: 'There's (There is) + lượng từ (a lot of) + N không đếm được (fish sauce) + in this recipe'.",
+          step4: "Loại B, C, D do xáo trộn sai trật tự cụm từ 'a lot of fish sauce'."
+        }
+      },
+      {
+        id: "xiv_7",
+        section: "XIV. Reorder the words and phrases to make complete sentences.",
+        question: "7. three / in / fridge. / are / There / milk / the / cartons / of",
+        options: [
+          { letter: "A", text: "There are three cartons of milk in the fridge." },
+          { letter: "B", text: "There are three milk cartons of in the fridge." },
+          { letter: "C", text: "There are cartons of three milk in the fridge." },
+          { letter: "D", text: "In the fridge there are milk three cartons of." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hoàn chỉnh: 'Có ba hộp sữa trong tủ lạnh.'",
+          step2: [
+            "A. There are three cartons of milk in the fridge. (Đúng cụm từ đếm được 'three cartons of milk').",
+            "B. ...three milk cartons of... (Đặt giới từ 'of' đứng đằng sau là sai).",
+            "C. ...cartons of three milk... (Đặt số từ 'three' đứng trước 'milk' là sai).",
+            "D. (Xáo trộn trật tự từ không chuẩn ngữ pháp)."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc tồn tại số nhiều: 'There are + Số từ + Danh từ chứa đựng (three cartons) + OF + N (milk) + in the fridge'.",
+          step4: "Loại B, C, D do đặt sai vị trí số từ 'three' và giới từ 'of'."
+        }
+      },
+      {
+        id: "xiv_8",
+        section: "XIV. Reorder the words and phrases to make complete sentences.",
+        question: "8. need / I / the / make / lots / cake. / sugar / of / to",
+        options: [
+          { letter: "A", text: "I need lots of sugar to make the cake." },
+          { letter: "B", text: "I need sugar lots of to make the cake." },
+          { letter: "C", text: "I need lots sugar of to make the cake." },
+          { letter: "D", text: "I need to make the cake lots sugar of." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hoàn chỉnh: 'Tôi cần nhiều đường để làm bánh.'",
+          step2: [
+            "A. I need lots of sugar to make the cake. (Đúng vị trí lượng từ 'lots of' và cụm to-V 'to make').",
+            "B. ...sugar lots of... (Đặt lượng từ 'lots of' đằng sau danh từ là sai).",
+            "C. ...lots sugar of... (Xáo trộn sai vị trí giới từ 'of').",
+            "D. ...lots sugar of. (Xáo trộn sai lượng từ ở cuối câu)."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc: 'S (I) + need + lượng từ (lots of) + N (sugar) + TO-V chỉ mục đích (to make the cake)'.",
+          step4: "Loại B, C, D do xáo trộn sai vị trí cụm 'lots of sugar'."
+        }
+      },
+      {
+        id: "xiv_9",
+        section: "XIV. Reorder the words and phrases to make complete sentences.",
+        question: "9. sister / at / My school. / lunch / has / usually",
+        options: [
+          { letter: "A", text: "My sister usually has lunch at school." },
+          { letter: "B", text: "My sister has usually lunch at school." },
+          { letter: "C", text: "My sister usually have lunch at school." },
+          { letter: "D", text: "Usually my sister has at school lunch." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hoàn chỉnh: 'Chị tôi thường ăn trưa ở trường.'",
+          step2: [
+            "A. My sister usually has lunch at school. (Đúng vị trí trạng từ tần suất 'usually' và chia động từ 'has').",
+            "B. ...has usually... (Đặt trạng từ tần suất đằng sau động từ thường là sai).",
+            "C. ...usually have... (Chưa chia động từ 'has' thêm đuôi số ít theo 'My sister').",
+            "D. ...has at school lunch. (Tách rời động từ 'has' và tân ngữ 'lunch' là sai)."
+          ],
+          step3: "Tại sao chọn A? Vị trí trạng từ chỉ tần suất: đứng TRƯỚC động từ thường ➔ 'usually has'. Động từ chia số ít theo chủ ngữ 'My sister' ➔ 'has lunch at school'.",
+          step4: "Loại B sai vị trí 'usually'; loại C chia sai động từ số nhiều 'have'; loại D xáo trộn vị trí tân ngữ."
+        }
+      },
+      {
+        id: "xiv_10",
+        section: "XIV. Reorder the words and phrases to make complete sentences.",
+        question: "10. on / school / fourth / the / is / canteen / The / floor.",
+        options: [
+          { letter: "A", text: "The school canteen is on the fourth floor." },
+          { letter: "B", text: "The school canteen is in the fourth floor." },
+          { letter: "C", text: "The fourth floor is school canteen on." },
+          { letter: "D", text: "The canteen school is on the fourth floor." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hoàn chỉnh: 'Căng tin trường học nằm ở tầng bốn.'",
+          step2: [
+            "A. The school canteen is on the fourth floor. (Đúng giới từ chỉ tầng nhà 'on the fourth floor').",
+            "B. ...in the fourth floor. (Dùng sai giới từ 'in', số tầng phải dùng giới từ 'on').",
+            "C. (Xáo trộn trật tự từ không chuẩn ngữ pháp).",
+            "D. ...canteen school... (Tráo ngược cụm danh từ 'school canteen')."
+          ],
+          step3: "Tại sao chọn A? Cụm danh từ chủ ngữ: 'The school canteen'. Động từ: 'is'. Cụm giới từ chỉ số tầng trong tòa nhà cố định: 'ON the fourth floor'.",
+          step4: "Loại B sai giới từ 'in'; loại C, D xáo trộn cụm danh từ và vị trí giới từ."
+        }
+      },
+      {
+        id: "xiv_11",
+        section: "XIV. Reorder the words and phrases to make complete sentences.",
+        question: "11. on / was / I / visited / holiday, / I / my old school. / When",
+        options: [
+          { letter: "A", text: "When I was on holiday, I visited my old school." },
+          { letter: "B", text: "When I was holiday on, I visited my old school." },
+          { letter: "C", text: "I was on holiday when visited I my old school." },
+          { letter: "D", text: "When I was on holiday, I visit my old school." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hoàn chỉnh: 'Khi tôi đang trong kỳ nghỉ, tôi đã đến thăm ngôi trường cũ của mình.'",
+          step2: [
+            "A. When I was on holiday, I visited my old school. (Đúng hoàn toàn cụm 'on holiday' và thì Quá khứ đơn 'visited').",
+            "B. ...holiday on... (Tráo ngược vị trí giới từ 'on').",
+            "C. ...when visited I... (Xáo trộn trật tự chủ ngữ 'I' và động từ 'visited').",
+            "D. ...I visit... (Chưa chia động từ Quá khứ đơn 'visited')."
+          ],
+          step3: "Tại sao chọn A? Mệnh đề thời gian trong quá khứ: 'When I was on holiday' (khi tôi nghỉ lễ). Mệnh đề chính Quá khứ đơn: 'I visited my old school'. Cụm từ cố định: 'on holiday'.",
+          step4: "Loại B, C sai trật tự từ; loại D chia sai thì Hiện tại đơn."
+        }
+      },
+      {
+        id: "xiv_12",
+        section: "XIV. Reorder the words and phrases to make complete sentences.",
+        question: "12. on / is / of / The computer room / the teacher's office / the left",
+        options: [
+          { letter: "A", text: "The computer room is on the left of the teacher's office." },
+          { letter: "B", text: "The computer room is on the left the teacher's office." },
+          { letter: "C", text: "The computer room is to the left of the teacher's office." },
+          { letter: "D", text: "The computer room is in the left of the teacher's office." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu hoàn chỉnh: 'Phòng máy tính nằm ở bên trái văn phòng giáo viên.'",
+          step2: [
+            "A. The computer room is on the left of the teacher's office. (Sắp xếp đầy đủ các từ gợi ý đề bài cho).",
+            "B. ...on the left the... (Thiếu giới từ 'of').",
+            "C. ...to the left of... (Đề bài cho từ 'on', không cho từ 'to').",
+            "D. ...in the left of... (Đề bài cho từ 'on', không cho từ 'in')."
+          ],
+          step3: "Tại sao chọn A? Cụm từ vị trí dựa chính xác vào danh sách các từ gợi ý của đề bài: 'on the left of + N' -> 'The computer room is ON THE LEFT OF the teacher's office'.",
+          step4: "Loại B thiếu 'of'; loại C, D thay đổi từ gợi ý gốc ('on' thành 'to/in')."
+        }
+      },
+
+      // ----- SECTION XV (1-12) -----
+      {
+        id: "xv_1",
+        section: "XV. Rewrite these sentences using the words given",
+        question: "1. She is more beautiful than her young sister. (AS)<br>➔ Her young sister _______.",
+        options: [
+          { letter: "A", text: "is not as beautiful as her." },
+          { letter: "B", text: "is as beautiful as her." },
+          { letter: "C", text: "is not more beautiful as her." },
+          { letter: "D", text: "is not so beautiful than her." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Cô ấy xinh đẹp hơn em gái của cô ấy.' ➔ 'Em gái của cô ấy không xinh đẹp bằng cô ấy.'",
+          step2: [
+            "A. is not as beautiful as her. (Đúng cấu trúc so sánh không bằng 'not as... as').",
+            "B. ...is as beautiful as... (Xinh đẹp bằng ➔ Trái ngược nghĩa gốc).",
+            "C. ...more beautiful as... (Mắc lỗi kết hợp sai cặp 'more... as').",
+            "D. ...so beautiful than... (Mắc lỗi kết hợp sai cặp 'so... than')."
+          ],
+          step3: "Tại sao chọn A? Quy đổi giữa So sánh hơn và So sánh không bằng: 'S1 + is + more Adj + than + S2' = 'S2 + IS NOT AS + Adj (beautiful) + AS + S1 (her)'.",
+          step4: "Loại B sai nghĩa; loại C, D sai cặp từ so sánh."
+        }
+      },
+      {
+        id: "xv_2",
+        section: "XV. Rewrite these sentences using the words given",
+        question: "2. This poet is talented. That poet is talented too. (AS)<br>➔ This poet _______.",
+        options: [
+          { letter: "A", text: "is as talented as that poet." },
+          { letter: "B", text: "is more talented as that poet." },
+          { letter: "C", text: "is as talented than that poet." },
+          { letter: "D", text: "is the same talented as that poet." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Nhà thơ này tài năng. Nhà thơ kia cũng tài năng.' ➔ 'Nhà thơ này tài năng như/bằng nhà thơ kia.'",
+          step2: [
+            "A. is as talented as that poet. (Đúng cấu trúc so sánh bằng 'as... as').",
+            "B. ...more talented as... (Kết hợp sai 'more... as').",
+            "C. ...as talented than... (Kết hợp sai 'as... than').",
+            "D. ...the same talented as... (Sai vì sau 'the same' dùng Noun, không dùng tính từ 'talented')."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc so sánh bằng với tính từ: 'S1 + be + AS + Adj (talented) + AS + S2 (that poet)'. Từ 'too' quy đổi thành cấu trúc so sánh ngang bằng.",
+          step4: "Loại B, C kết hợp sai từ so sánh; loại D dùng sai tính từ với 'the same'."
+        }
+      },
+      {
+        id: "xv_3",
+        section: "XV. Rewrite these sentences using the words given",
+        question: "3. Khanh is a better painter than Giang. (AS)<br>➔ Giang can't _______.",
+        options: [
+          { letter: "A", text: "paint as well as Khanh." },
+          { letter: "B", text: "paint as good as Khanh." },
+          { letter: "C", text: "be a painter as better as Khanh." },
+          { letter: "D", text: "paint better as Khanh." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Khánh là một họa sĩ giỏi hơn Giang.' ➔ 'Giang không thể vẽ giỏi bằng Khánh.'",
+          step2: [
+            "A. paint as well as Khanh. (Đúng trạng từ 'well' bổ nghĩa cho động từ 'paint' trong so sánh không bằng).",
+            "B. ...as good as... (Dùng sai tính từ 'good' bổ nghĩa cho động từ 'paint').",
+            "C. ...as better as... (Dùng nhầm dạng so sánh hơn 'better' trong cặp 'as... as').",
+            "D. ...better as... (Kết hợp sai 'better as')."
+          ],
+          step3: "Tại sao chọn A? Chuyển đổi từ cụm danh từ sang động từ + trạng từ: 'better painter' ➔ động từ 'paint' đi với trạng từ 'well'. Cấu trúc so sánh không bằng: 'can't + V (paint) + AS WELL AS + N (Khanh)'.",
+          step4: "Loại B sai dùng tính từ bổ nghĩa cho động từ; loại C, D sai từ so sánh."
+        }
+      },
+      {
+        id: "xv_4",
+        section: "XV. Rewrite these sentences using the words given",
+        question: "4. This painting is similar to that painting. (LIKE)<br>➔ This painting is _______.",
+        options: [
+          { letter: "A", text: "like that painting." },
+          { letter: "B", text: "similar like that painting." },
+          { letter: "C", text: "the same like that painting." },
+          { letter: "D", text: "like to that painting." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Bức tranh này tương tự như bức tranh kia.' ➔ 'Bức tranh này giống như bức tranh kia.'",
+          step2: [
+            "A. like that painting. (Đúng ngữ pháp so sánh tương đồng 'be like').",
+            "B. ...similar like... (Lặp thừa từ 'similar').",
+            "C. ...the same like... (Mắc lỗi kết hợp lặp thừa 'the same... like').",
+            "D. ...like to... (Thừa giới từ 'to' sau 'like')."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc quy đổi tính từ so sánh giống nhau: 'be similar to' = 'BE LIKE' (giống như cái gì).",
+          step4: "Loại B, C, D lặp thừa từ hoặc thừa giới từ."
+        }
+      },
+      {
+        id: "xv_5",
+        section: "XV. Rewrite these sentences using the words given",
+        question: "5. Folk music and pop music are not similar. (FROM)<br>➔ Folk music _______.",
+        options: [
+          { letter: "A", text: "is different from pop music." },
+          { letter: "B", text: "is not similar from pop music." },
+          { letter: "C", text: "is from different pop music." },
+          { letter: "D", text: "are different from pop music." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Nhạc dân gian và nhạc pop không giống nhau.' ➔ 'Nhạc dân gian khác với nhạc pop.'",
+          step2: [
+            "A. is different from pop music. (Đúng ngữ pháp 'be different from' và chia động từ 'is' số ít).",
+            "B. ...not similar from... (Dùng sai giới từ 'from' với 'similar').",
+            "C. ...from different... (Xáo trộn sai vị trí giới từ).",
+            "D. ...are different... (Chia sai động từ 'are' khi tách chủ ngữ đơn 'Folk music')."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc quy đổi sự không tương đồng: 'A and B are not similar' = 'A IS DIFFERENT FROM B'. Động từ to-be chia số ít theo 'Folk music'.",
+          step4: "Loại B sai giới từ; loại C xáo trộn từ; loại D chia sai to-be số nhiều."
+        }
+      },
+      {
+        id: "xv_6",
+        section: "XV. Rewrite these sentences using the words given",
+        question: "6. It took him three hours to make this pottery jug. (SPENT)<br>➔ He _______.",
+        options: [
+          { letter: "A", text: "spent three hours making this pottery jug." },
+          { letter: "B", text: "spent three hours to make this pottery jug." },
+          { letter: "C", text: "spent three hours make this pottery jug." },
+          { letter: "D", text: "spent to make this pottery jug three hours." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Anh ấy mất ba tiếng để làm chiếc bình gốm này.' ➔ 'Anh ấy đã dành ba tiếng làm chiếc bình gốm này.'",
+          step2: [
+            "A. spent three hours making this pottery jug. (Đúng ngữ pháp spent + time + V-ing).",
+            "B. ...spent... to make... (Mắc lỗi dùng 'to-V' sau 'spent time').",
+            "C. ...spent... make... (Mắc lỗi dùng 'V-bare' sau 'spent time').",
+            "D. ...spent to make... (Xáo trộn sai vị trí cụm thời gian)."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc quy đổi thời gian làm việc gì ở quá khứ: 'It took + O + time + to-V' = 'S + SPENT + time + V-ING' ➔ 'He spent three hours MAKING...'.",
+          step4: "Loại B, C, D do sai dạng động từ theo sau 'spent time'."
+        }
+      },
+      {
+        id: "xv_7",
+        section: "XV. Rewrite these sentences using the words given",
+        question: "7. Let's walk to work. (ABOUT)<br>➔ How _______?",
+        options: [
+          { letter: "A", text: "about walking to work?" },
+          { letter: "B", text: "about walk to work?" },
+          { letter: "C", text: "about to walk to work?" },
+          { letter: "D", text: "about we walk to work?" }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Chúng ta hãy đi bộ đi làm nào!' ➔ 'Thế còn việc đi bộ đi làm thì sao?'",
+          step2: [
+            "A. about walking to work? (Đúng ngữ pháp How about + V-ing).",
+            "B. ...about walk... (Mắc lỗi dùng V-bare sau giới từ 'about').",
+            "C. ...about to walk... (Mắc lỗi dùng 'to-V' sau giới từ 'about').",
+            "D. ...about we walk... (Thừa chủ ngữ 'we' trong cấu trúc 'How about')."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc câu gợi ý/rủ rê tương đương: 'Let's + V-bare!' = 'HOW ABOUT + V-ING...?' ➔ 'How about WALKING to work?'.",
+          step4: "Loại B, C, D do sai dạng động từ theo sau giới từ 'about'."
+        }
+      },
+      {
+        id: "xv_8",
+        section: "XV. Rewrite these sentences using the words given",
+        question: "8. The market does not have any carrots. (AREN'T)<br>➔ There _______.",
+        options: [
+          { letter: "A", text: "aren't any carrots in the market." },
+          { letter: "B", text: "aren't carrots in the market." },
+          { letter: "C", text: "aren't no carrots in the market." },
+          { letter: "D", text: "aren't any carrots at the market." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Chợ không có củ cà rốt nào.' ➔ 'Không có củ cà rốt nào ở trong chợ.'",
+          step2: [
+            "A. aren't any carrots in the market. (Đúng ngữ pháp 'There aren't any + N số nhiều + in the market').",
+            "B. ...aren't carrots... (Thiếu lượng từ 'any' trong câu phủ định tồn tại).",
+            "C. ...aren't no... (Mắc lỗi phủ định kép 'aren't' và 'no').",
+            "D. ...at the market. (Trong khuôn viên khu chợ dùng giới từ 'in the market' chuẩn hơn)."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc quy đổi từ phủ định sở hữu sang sự tồn tại: 'S + doesn't have + any + N (số nhiều)' = 'THERE AREN'T ANY + N (số nhiều: carrots) + in + Place'.",
+          step4: "Loại B thiếu 'any'; loại C lặp phủ định kép; loại D dùng giới từ 'at' chưa chuẩn ngữ cảnh trong chợ."
+        }
+      },
+      {
+        id: "xv_9",
+        section: "XV. Rewrite these sentences using the words given",
+        question: "9. There are no bottles on the shelf. (ANY)<br>➔ There _______.",
+        options: [
+          { letter: "A", text: "aren't any bottles on the shelf." },
+          { letter: "B", text: "are not no bottles on the shelf." },
+          { letter: "C", text: "aren't some bottles on the shelf." },
+          { letter: "D", text: "are any bottles on the shelf." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Không có chiếc chai nào trên giá sách/kệ.' ➔ 'Không có bất kỳ chiếc chai nào trên kệ.'",
+          step2: [
+            "A. aren't any bottles on the shelf. (Đúng quy tắc chuyển 'no' thành 'not... any').",
+            "B. ...are not no... (Mắc lỗi lặp phủ định kép 'not... no').",
+            "C. ...aren't some... (Dùng 'some' trong câu phủ định là sai, phải dùng 'any').",
+            "D. ...are any... (Thiếu từ phủ định 'not' trong câu)."
+          ],
+          step3: "Tại sao chọn A? Quy tắc quy đổi câu phủ định tồn tại: 'There + be + NO + N (số nhiều)' = 'THERE + BE NOT (aren't) + ANY + N (số nhiều)'.",
+          step4: "Loại B lặp phủ định kép; loại C dùng 'some'; loại D thiếu từ phủ định 'not'."
+        }
+      },
+      {
+        id: "xv_10",
+        section: "XV. Rewrite these sentences using the words given",
+        question: "10. Jakarta doesn't have as many skyscrapers as Shanghai. (MORE)<br>➔ Shanghai has _______.",
+        options: [
+          { letter: "A", text: "more skyscrapers than Jakarta." },
+          { letter: "B", text: "more skyscrapers as Jakarta." },
+          { letter: "C", text: "as more skyscrapers than Jakarta." },
+          { letter: "D", text: "more skyscrapers than Jakarta has not." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Jakarta không có nhiều tòa nhà cao tầng bằng Thượng Hải.' ➔ 'Thượng Hải có nhiều tòa nhà cao tầng hơn Jakarta.'",
+          step2: [
+            "A. more skyscrapers than Jakarta. (Đúng ngữ pháp so sánh hơn với danh từ đếm được số nhiều).",
+            "B. ...more skyscrapers as... (Mắc lỗi kết hợp sai cặp 'more... as').",
+            "C. ...as more... than... (Mắc lỗi xáo trộn lặp từ so sánh).",
+            "D. ...than Jakarta has not. (Thừa phủ định 'has not' ở cuối câu)."
+          ],
+          step3: "Tại sao chọn A? Quy đổi So sánh không bằng sang So sánh hơn với lượng từ: 'A doesn't have as many N as B' = 'B HAS MORE + N (skyscrapers) + THAN + A (Jakarta)'.",
+          step4: "Loại B kết hợp sai từ so sánh; loại C, D xáo trộn từ và thừa phủ định."
+        }
+      },
+      {
+        id: "xv_11",
+        section: "XV. Rewrite these sentences using the words given",
+        question: "11. It's necessary for you to peel the pears and remove the cores. (MUST)<br>➔ You _______.",
+        options: [
+          { letter: "A", text: "must peel the pears and remove the cores." },
+          { letter: "B", text: "must to peel the pears and remove the cores." },
+          { letter: "C", text: "must peeling the pears and remove the cores." },
+          { letter: "D", text: "must peeled the pears and remove the cores." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Việc gọt vỏ quả lê và bỏ lõi là cần thiết đối với bạn.' ➔ 'Bạn phải gọt vỏ quả lê và bỏ lõi.'",
+          step2: [
+            "A. must peel the pears and remove the cores. (Đúng ngữ pháp must + V-bare).",
+            "B. ...must to peel... (Thừa 'to' sau động từ khuyết thiếu 'must').",
+            "C. ...must peeling... (Sai dạng V-ing sau 'must').",
+            "D. ...must peeled... (Sai dạng quá khứ V2/ed sau 'must')."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc quy đổi sự cần thiết/bắt buộc: 'It's necessary for someone to V' = 'S + MUST + V-bare' ➔ 'You must PEEL... AND REMOVE...'.",
+          step4: "Loại B, C, D do sai dạng động từ theo sau động từ khuyết thiếu 'must'."
+        }
+      },
+      {
+        id: "xv_12",
+        section: "XV. Rewrite these sentences using the words given",
+        question: "12. It's easy for Ann to arrange flowers. (FINDS)<br>➔ Ann _______.",
+        options: [
+          { letter: "A", text: "finds arranging flowers easy." },
+          { letter: "B", text: "finds easy to arrange flowers." },
+          { letter: "C", text: "finds arranging flowers easily." },
+          { letter: "D", text: "finds it is easy to arrange flowers." }
+        ],
+        correct: "A",
+        explanation: {
+          step1: "Dịch câu gốc: 'Việc cắm hoa thật dễ dàng đối với Ann.' ➔ 'Ann nhận thấy việc cắm hoa thật dễ dàng.'",
+          step2: [
+            "A. finds arranging flowers easy. (Đúng cấu trúc find + V-ing + Adj).",
+            "B. ...finds easy to... (Thiếu chủ ngữ giả 'it' nếu dùng cấu trúc 'find it + Adj + to-V').",
+            "C. ...easily. (Sai vì sau tân ngữ 'arranging flowers' cần tính từ 'easy', không dùng trạng từ 'easily').",
+            "D. ...finds it is easy... (Thừa động từ to-be 'is')."
+          ],
+          step3: "Tại sao chọn A? Cấu trúc nhận thấy việc gì như thế nào: 'find + V-ing (arranging flowers) + Adj (easy)'. Hoặc 'find it + Adj + to-V' (Ann finds it easy to arrange flowers). Đáp án A áp dụng chuẩn xác cấu trúc 1.",
+          step4: "Loại B thiếu 'it'; loại C dùng sai trạng từ 'easily'; loại D thừa 'is'."
+        }
+      }
+    ];
+
+    /* ==========================================
+       2. TẠO ÂM THANH BẰNG WEB AUDIO API
+       ========================================== */
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playSound(type) {
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      if (type === 'correct') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+      } else {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(110, audioCtx.currentTime + 0.25);
+        gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.25);
+      }
+    }
+
+    /* ==========================================
+       3. HIỆU ỨNG PHÁO GIẤY (CONFETTI)
+       ========================================== */
+    function triggerConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const pieces = [];
+      const colors = ['#8854C0', '#FDCB6E', '#00C9A7', '#FF7675', '#00D26A', '#6C5CE7'];
+
+      for (let i = 0; i < 90; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          size: Math.random() * 9 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speed: Math.random() * 4 + 2,
+          rotation: Math.random() * 360
+        });
+      }
+
+      let animationFrame;
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+          p.y += p.speed;
+          p.rotation += 2;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+          ctx.restore();
+        });
+
+        if (pieces.some(p => p.y < canvas.height)) {
+          animationFrame = requestAnimationFrame(render);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          cancelAnimationFrame(animationFrame);
+        }
+      }
+      render();
+    }
+
+    /* ==========================================
+       4. LOGIC HIỂN THỊ CÂU HỎI (GIỮ NGUYÊN THỨ TỰ)
+       ========================================== */
+    let userAnswers = {};
+
+    function shuffle(array) {
+      let currentIndex = array.length, randomIndex;
+      while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+      }
+      return array;
+    }
+
+    function renderQuiz() {
+      const quizContainer = document.getElementById('quiz-container');
+      quizContainer.innerHTML = '';
+
+      const sections = {};
+      quizData.forEach(item => {
+        if (!sections[item.section]) {
+          sections[item.section] = [];
+        }
+        sections[item.section].push(item);
+      });
+
+      for (const secTitle in sections) {
+        const secHeader = document.createElement('div');
+        secHeader.className = 'section-heading';
+        secHeader.innerHTML = `📌 ${secTitle}`;
+        quizContainer.appendChild(secHeader);
+
+        sections[secTitle].forEach(q => {
+          const card = document.createElement('div');
+          card.className = 'question-card';
+          card.id = `q-card-${q.id}`;
+
+          const shuffledOptions = shuffle([...q.options]);
+
+          let optionsHTML = '<div class="options-grid">';
+          shuffledOptions.forEach(opt => {
+            optionsHTML += `
+              <button class="option-btn" 
+                      id="btn-${q.id}-${opt.letter}" 
+                      onclick="selectAnswer('${q.id}', '${opt.letter}', '${q.correct}')">
+                <strong>${opt.letter}.</strong> ${opt.text}
+              </button>
+            `;
+          });
+          optionsHTML += '</div>';
+
+          let expStepsHTML = '';
+          if (q.explanation.step2 && Array.isArray(q.explanation.step2)) {
+            expStepsHTML = '<ul>' + q.explanation.step2.map(item => `<li>${item}</li>`).join('') + '</ul>';
+          }
+
+          const explanationHTML = `
+            <div class="explanation-box" id="exp-${q.id}">
+              <div class="exp-title">💡 PHẦN GIẢI THÍCH CHI TIẾT TỪ MS LÊ HẰNG:</div>
+              <div class="step"><strong>1. Phân tích & Dịch nghĩa câu hỏi:</strong> ${q.explanation.step1}</div>
+              ${expStepsHTML}
+              <div class="step"><strong class="highlight-green">2. Tại sao chọn đáp án đúng?</strong> ${q.explanation.step3}</div>
+              <div class="step"><strong>3. Phân tích lỗi sai các đáp án còn lại:</strong> ${q.explanation.step4}</div>
+            </div>
+          `;
+
+          card.innerHTML = `
+            <div class="question-title">${q.question}</div>
+            ${optionsHTML}
+            ${explanationHTML}
+          `;
+
+          quizContainer.appendChild(card);
+        });
+      }
+    }
+
+    function selectAnswer(qId, selectedLetter, correctLetter) {
+      if (userAnswers[qId]) return;
+
+      userAnswers[qId] = selectedLetter;
+
+      const isCorrect = (selectedLetter === correctLetter);
+      const selectedBtn = document.getElementById(`btn-${qId}-${selectedLetter}`);
+      const correctBtn = document.getElementById(`btn-${qId}-${correctLetter}`);
+      const expBox = document.getElementById(`exp-${qId}`);
+
+      const allBtns = document.querySelectorAll(`#q-card-${qId} .option-btn`);
+      allBtns.forEach(btn => btn.classList.add('disabled'));
+
+      if (isCorrect) {
+        selectedBtn.classList.add('correct');
+        playSound('correct');
+        triggerConfetti();
+      } else {
+        selectedBtn.classList.add('wrong');
+        correctBtn.classList.add('correct');
+        playSound('wrong');
+      }
+
+      if (expBox) {
+        expBox.style.display = 'block';
+      }
+
+      updateProgressBar();
+    }
+
+    function updateProgressBar() {
+      const answeredCount = Object.keys(userAnswers).length;
+      const totalCount = quizData.length;
+      const percentage = (answeredCount / totalCount) * 100;
+      document.getElementById('progress-bar').style.width = percentage + '%';
+    }
+
+    /* ==========================================
+       5. LOGIC CHẤM ĐIỂM & TỔNG KẾT
+       ========================================== */
+    function submitQuiz() {
+      let score = 0;
+      const total = quizData.length;
+
+      quizData.forEach(q => {
+        if (userAnswers[q.id] === q.correct) {
+          score++;
+        }
+      });
+
+      const percentage = (score / total) * 100;
+      let feedback = "";
+
+      if (percentage < 50) {
+        feedback = "Điểm lần này chưa cao lắm, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau!";
+      } else if (percentage <= 80) {
+        feedback = "Con đã có tiến bộ khá ổn rồi, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau!";
+      } else {
+        feedback = "Làm tốt lắm, con cố gắng ring điểm 10 ở lần sau nha!";
+        triggerConfetti();
+      }
+
+      document.getElementById('modal-score-text').innerText = `${score} / ${total}`;
+      document.getElementById('modal-feedback-text').innerText = feedback;
+      document.getElementById('result-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('result-modal').style.display = 'none';
+    }
+
+    window.onload = function() {
+      renderQuiz();
+    };
+  </script>
+</body>
+</html>
